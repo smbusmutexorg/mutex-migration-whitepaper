@@ -2,7 +2,7 @@
 
 ## Questions
 
-Should you have a suggestion for the documentation or a question, you can open an [issue][github-issues] and outline the problem or improvement you have. Please search for existing issues before reporting a new one.
+Should you have a suggestion for the documentation or a question, you can open an [issue](https://github.com/smbusmutexorg/mutex-migration-whitepaper/issues) and outline the problem or improvement you have. Please search for existing issues before reporting a new one.
 
 You can also reach us at <smbusmutex@gmail.com>.
 
