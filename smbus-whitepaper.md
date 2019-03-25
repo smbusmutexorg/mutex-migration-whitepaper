@@ -31,17 +31,17 @@ Having one mutex for all SMBus controllers with simultaneous work of several app
 Instead of using single mutex to access all SMBus controllers it is proposed to use separate mutexes for each SMBus controller ([per-controller mutexes list](#percontrollermutexeslist) below).  
 
 ### <a name='percontrollermutexeslist'></a>Per-controller mutexes list
-1. **Global\Access_SMBUS.CHIPSET\X**
+1. **Global\Access_SMBUS.CHIPSET.X**
 
     *Used to access X<sup>th</sup> SMBus controller on motherboard chipset.*  
-    *X is a zero-based controller index (Global\Access_SMBUS.CHIPSET\0, Global\Access_SMBUS.CHIPSET\1, etc.)*  
-    **Note**: the controller index X depends on the device address in memory. The smaller index corresponds to the lower address. Most systems will only use 0 chipset index, i.e. *Global\Access_SMBUS.CHIPSET\0*
+    *X is a zero-based controller index (Global\Access_SMBUS.CHIPSET.0, Global\Access_SMBUS.CHIPSET.1, etc.)*  
+    **Note**: the controller index X depends on the device address in memory. The smaller index corresponds to the lower address. Most systems will only use 0 chipset index, i.e. *Global\Access_SMBUS.CHIPSET.0*
 
-2. **Global\Access_SMBUS.CPU_N\X**
+2. **Global\Access_SMBUS.CPU_N.X**
 
     *Used to access X<sup>th</sup> SMBus controller on N<sup>th</sup> CPU.*  
-    *X is a zero-based controller index, N is a zero-based CPU index(Global\Access_SMBUS.CPU_0\0, Global\Access_SMBUS.CPU_0\1, Global\Access_SMBUS.CPU_1\0, Global\Access_SMBUS.CPU_1\1, etc.)*  
-    **Note**: the controller index X and CPU index N depend on the device address in memory or index of PCI Bus. The smaller index corresponds to the lower memory address or PCI Bus index. Most systems will only use 0 CPU index, i.e. *Global\Access_SMBUS.CPU_0\0*, *Global\Access_SMBUS.CPU_0\1*
+    *X is a zero-based controller index, N is a zero-based CPU index(Global\Access_SMBUS.CPU_0.0, Global\Access_SMBUS.CPU_0.1, Global\Access_SMBUS.CPU_1.0, Global\Access_SMBUS.CPU_1.1, etc.)*  
+    **Note**: the controller index X and CPU index N depend on the device address in memory or index of PCI Bus. The smaller index corresponds to the lower memory address or PCI Bus index. Most systems will only use 0 CPU index, i.e. *Global\Access_SMBUS.CPU_0.0*, *Global\Access_SMBUS.CPU_0.1*
 
 ### <a name='auxmutexeslist'></a>Aux mutexes list (needed only for backward compatibility during migration process)
 Using just per-controller mutexes will break compatibility with current applications, and to make the migration to new mutexes smoother, while retaining the possibility of simultaneous operation of several different applications (new and current), two more mutexes are needed.  
@@ -85,17 +85,17 @@ At this step it is needed to lock acknowledgement mutex and release it only when
 
 ### <a name='aftermigration'></a>After migration (including backward compatibility)
 
-Using "*Global\Access_SMBUS.CHIPSET\0*" mutex:
+Using "*Global\Access_SMBUS.CHIPSET.0*" mutex:
 
 ![](./figures/f02.png)
 
-Using "*Global\Access_SMBUS.CPU_0\0*" and "*Global\Access_SMBUS.CPU_0\1*" mutexes:
+Using "*Global\Access_SMBUS.CPU_0.0*" and "*Global\Access_SMBUS.CPU_0.1*" mutexes:
 
 ![](./figures/f03.png)
 
 ### After migration (excluding backward compatibility)
 
-Using "*Global\Access_SMBUS.CPU_0\0*" and "*Global\Access_SMBUS.CPU_0\1*" mutexes:
+Using "*Global\Access_SMBUS.CPU_0.0*" and "*Global\Access_SMBUS.CPU_0.1*" mutexes:
 
 ![](./figures/f04.png)
 
